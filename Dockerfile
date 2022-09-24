@@ -2,7 +2,7 @@ ARG UBUNTU_VERSION=20.04
 ARG LLVM_VERSION=14
 ARG BUILD_TYPE=RelWithDebInfo
 
-FROM ubuntu:$UBUNTU_VERSION AS builder
+FROM ubuntu:20.04 AS builder
 
 ARG LLVM_VERSION
 ARG BUILD_TYPE
@@ -29,12 +29,8 @@ RUN cmake -G Ninja ../llvm \
 
 RUN cmake --build .
 RUN cmake --build . --target install
-    
-FROM ubuntu:$UBUNTU_VERSION
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends binutils build-essential && \
-    rm -rf /var/lib/apt/lists/*
+FROM ubuntu:$UBUNTU_VERSION
 
 COPY --from=builder /tmp/llvm/ /usr/local/
 
