@@ -13,7 +13,6 @@ RUN apt-get update && \
     build-essential libssl-dev ninja-build python3 python3-distutils wget git unzip zlib1g-dev && \
     rm -rf /var/lib/apt/lists/*
 
-
 RUN git clone --branch v3.24.2 --single-branch --depth 1 https://github.com/Kitware/CMake.git /tmp/cmake
 
 WORKDIR /tmp/cmake
@@ -28,8 +27,8 @@ WORKDIR /tmp/llvm-project/build
 
 RUN cmake -G Ninja ../llvm \
     -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_ASSERTIONS=ON -DCMAKE_INSTALL_PREFIX=/tmp/llvm \
-    -DCMAKE_C_COMPILER="gcc" -DCMAKE_CXX_COMPILER="g++" -DLLVM_USE_LINKER="gold" \
-    -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lld;openmp;polly" -DLLVM_TARGETS_TO_BUILD="host" \
+    -DCMAKE_C_COMPILER="gcc" -DCMAKE_CXX_COMPILER="g++" -DLLVM_USE_LINKER="gold" -DLLVM_TARGETS_TO_BUILD="host" \
+    -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lld;openmp;polly" -DLLVM_ENABLE_RUNTIMES="compiler-rt;libunwind" \
     -DLLVM_BUILD_TOOLS=ON -DLLVM_INSTALL_UTILS=ON -DLLVM_OPTIMIZED_TABLEGEN=ON \
     -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_INCLUDE_BENCHMARKS=OFF 
 
