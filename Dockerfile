@@ -27,7 +27,7 @@ RUN mkdir /tmp/llvm-project/build && mkdir /tmp/llvm
 
 WORKDIR /tmp/llvm-project/build
 
-RUN cmake -G Ninja ../llvm \
+RUN cmake -G Ninja ../llvm -Wno-dev \
     -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_ASSERTIONS=ON -DCMAKE_INSTALL_PREFIX=/tmp/llvm \
     -DCMAKE_C_COMPILER="gcc-11" -DCMAKE_CXX_COMPILER="g++-11" -DLLVM_USE_LINKER="gold" -DLLVM_TARGETS_TO_BUILD="host" \
     -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lld;openmp;polly" \
