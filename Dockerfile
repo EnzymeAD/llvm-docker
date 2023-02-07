@@ -6,10 +6,6 @@ FROM ubuntu:20.04 AS builder
 ARG LLVM_VERSION
 ARG BUILD_TYPE
 
-LABEL org.opencontainers.image.source=https://github.com/EnzymeAD/llvm-docker
-LABEL org.opencontainers.image.description="LLVM build for use in Enzyme CI"
-LABEL org.opencontainers.image.licenses=MIT
-
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -q && apt-get install --no-install-recommends -y ca-certificates software-properties-common gcc g++ cmake ninja-build build-essential python3 python3-distutils git unzip zlib1g-dev \
