@@ -1,14 +1,14 @@
 ARG UBUNTU_VERSION=20.04
 ARG LLVM_VERSION=14
 
-LABEL org.opencontainers.image.source=https://github.com/EnzymeAD/llvm-docker
-LABEL org.opencontainers.image.description="LLVM build for use in Enzyme CI"
-LABEL org.opencontainers.image.licenses=MIT
-
 FROM ubuntu:20.04 AS builder
 
 ARG LLVM_VERSION
 ARG BUILD_TYPE
+
+LABEL org.opencontainers.image.source=https://github.com/EnzymeAD/llvm-docker
+LABEL org.opencontainers.image.description="LLVM build for use in Enzyme CI"
+LABEL org.opencontainers.image.licenses=MIT
 
 ENV DEBIAN_FRONTEND=noninteractive
 
