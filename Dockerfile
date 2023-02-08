@@ -29,6 +29,7 @@ RUN mkdir /tmp/llvm-project/build && mkdir /tmp/llvm && cd /tmp/llvm-project/bui
     -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_INCLUDE_BENCHMARKS=OFF \
     -DCLANG_ENABLE_STATIC_ANALYZER=OFF -DCLANG_ENABLE_ARCMT=OFF \
     -DCOMPILER_RT_BUILD_LIBFUZZER=OFF -DCOMPILER_RT_BUILD_PROFILE=OFF \
+    -DLLVM_PARALLEL_LINK_JOBS=2 \
     && cmake --build . && cmake --build . --target install
 
 FROM ubuntu:$UBUNTU_VERSION
