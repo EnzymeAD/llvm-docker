@@ -8,7 +8,7 @@ ARG BUILD_TYPE
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update -q && apt-get install --no-install-recommends -y ca-certificates software-properties-common gcc g++ cmake ninja-build build-essential python3 python3-distutils git unzip zlib1g-dev \
+RUN apt-get update -q && apt-get install --no-install-recommends -y ca-certificates software-properties-common clang lld cmake ninja-build build-essential python3 python3-distutils git unzip zlib1g-dev \
     && apt-get autoremove -y --purge \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
@@ -18,11 +18,12 @@ RUN git clone --branch release/$LLVM_VERSION.x --single-branch --depth 1 https:/
 RUN mkdir /tmp/llvm-project/build && mkdir /tmp/llvm && cd /tmp/llvm-project/build \
     && cmake -G Ninja ../llvm -Wno-dev \
     -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_ASSERTIONS=ON -DCMAKE_INSTALL_PREFIX=/tmp/llvm \
-    -DCMAKE_C_COMPILER="gcc" -DCMAKE_CXX_COMPILER="g++" -DLLVM_USE_LINKER="gold" -DLLVM_TARGETS_TO_BUILD="host" \
+    -DCMAKE_C_COMPILER="clang" -DCMAKE_CXX_COMPILER="clang++" -DLLVM_USE_LINKER="lld" -DLLVM_TARGETS_TO_BUILD="host" \
     -DLLVM_ENABLE_PROJECTS="clang;lld;openmp;polly" -DLLVM_ENABLE_RUNTIMES="compiler-rt" \
     -DLLVM_BUILD_TOOLS=OFF -DLLVM_INSTALL_UTILS=OFF -DLLVM_OPTIMIZED_TABLEGEN=ON \
     -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_INCLUDE_BENCHMARKS=OFF \
     -DCLANG_ENABLE_STATIC_ANALYZER=OFF -DCLANG_ENABLE_ARCMT=OFF \
+    -DCOMPILER_RT_BUILD_LIBFUZZER=OFF -DCOMPILER_RT_BUILD_PROFILE=OFF \
     && cmake --build . && cmake --build . --target install
 
 FROM ubuntu:$UBUNTU_VERSION
