@@ -8,7 +8,7 @@ ARG BUILD_TYPE
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update -q && apt-get install --no-install-recommends -y cmake ninja-build build-essential python3 python3-distutils git unzip zlib1g-dev gcc g++ \
+RUN apt-get update -q && apt-get install -y cmake ninja-build build-essential python3 python3-distutils git unzip zlib1g-dev gcc g++ \
     && apt-get autoremove -y --purge \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
