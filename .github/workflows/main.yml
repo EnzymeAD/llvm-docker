@@ -7,7 +7,7 @@ on:
 jobs:
   push_to_registry:
     name: Push Docker image to GitHub Packages
-    runs-on: self-hosted
+    runs-on: large22
     strategy:
       fail-fast: false
       matrix:
