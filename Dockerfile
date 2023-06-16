@@ -18,7 +18,7 @@ RUN git clone --branch release/$LLVM_VERSION.x --single-branch --depth 1 https:/
 RUN mkdir /tmp/llvm-project/build && mkdir /tmp/llvm && cd /tmp/llvm-project/build \
     && cmake -G Ninja ../llvm -Wno-dev \
     -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_ASSERTIONS=ON -DCMAKE_INSTALL_PREFIX=/tmp/llvm \
-    -DCMAKE_C_COMPILER="gcc" -DCMAKE_CXX_COMPILER="g++" -DLLVM_USE_LINKER="gold" -DLLVM_TARGETS_TO_BUILD="host" \
+    -DCMAKE_C_COMPILER="gcc" -DCMAKE_CXX_COMPILER="g++" -DLLVM_USE_LINKER="gold" -DLLVM_TARGETS_TO_BUILD="X86" \
     -DLLVM_ENABLE_PROJECTS="clang;lld" -DLLVM_ENABLE_RUNTIMES="compiler-rt;openmp" \
     -DLLVM_BUILD_TOOLS=OFF -DLLVM_INSTALL_UTILS=OFF -DLLVM_OPTIMIZED_TABLEGEN=ON \
     -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_INCLUDE_BENCHMARKS=OFF \
