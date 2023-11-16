@@ -6,19 +6,31 @@ on:
 
 jobs:
   push_to_registry:
-    name: Push Docker image to GitHub Packages
-    runs-on: large22
+    name: Build and push docker ${{ matrix.ubuntu }} ${{ matrix.llvm }} ${{ matrix.commit }} ${{ matrix.build }} ${{ matrix.projects }} ${{ matrix.targets }} ${{ matrix.url }}
+    runs-on: openstack22
     strategy:
       fail-fast: false
       matrix:
-        llvm: [9, 10, 11, 12, 13, 14, 15, 16]
-        ubuntu: [20]
+        ubuntu: [22.04]
+        url: ["https://github.com/llvm/llvm-project"]
+        llvm: [11, 12, 13, 14, 15, 16, 17]
+        commit: [""]
+        build: ["Debug", "Release"]
+        projects: ["clang;lld"]
+        targets: ["X86"]
+      include:
+        - projects: "clang;lld;mlir"
+          llvm: "16"
+        - projects: "clang;lld;mlir"
+          llvm: ""
+          commit: "b7a249d26fe61432050df470d23bdea417fda574"
+
     permissions:
       packages: write
       contents: read
     env:
       REGISTRY: ghcr.io
-      IMAGE_NAME: ${{ github.repository }}/ubuntu-${{ matrix.ubuntu }}-llvm-${{ matrix.llvm }}
+      IMAGE_NAME: ${{ github.repository }}/ubuntu-${{ matrix.ubuntu }}-llvm-${{ matrix.llvm }}-build-${{ matrix.build }}-project-${{ matrix.projects }}-commit-${{ matrix.commit }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
@@ -52,11 +64,15 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           platforms: linux/amd64
           build-args: | 
+            UBUNTU_VERSION=${{ matrix.ubuntu }}
+            LLVM_URL=${{ matrix.url }}
             LLVM_VERSION=${{ matrix.llvm }}
-            UBUNTU_VERSION=${{ matrix.ubuntu }}.04
+            LLVM_COMMIT=${{ matrix.commit }}
+            BUILD_TYPE=${{ matrix.build }}
+            PROJECTS=${{ matrix.projects }}
+            TARGETS=${{ matrix.targets }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          
