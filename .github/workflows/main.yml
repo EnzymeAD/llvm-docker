@@ -1,8 +1,8 @@
 name: Publish Docker images
 on:
   push:
-    tags:
-      - '*'
+    branches:
+      - 'main'
 
 jobs:
   push_to_registry:
@@ -30,7 +30,7 @@ jobs:
       contents: read
     env:
       REGISTRY: ghcr.io
-      IMAGE_NAME: ${{ github.repository }}/ubuntu-${{ matrix.ubuntu }}-llvm-${{ matrix.llvm }}-build-${{ matrix.build }}-project-${{ contains(matrix.projects, 'clang') }}-${{ contains(matrix.projects, 'lld') }}-${{ contains(matrix.projects, 'mlir') }}-commit-${{ matrix.llcommit }}
+      IMAGE_NAME: ${{ github.repository }}/ubuntu-${{ matrix.ubuntu }}-llvm-${{ matrix.llvm }}-build-${{ matrix.build }}-project-${{ contains(matrix.projects, 'clang') }}-${{ contains(matrix.projects, 'lld') }}-${{ contains(matrix.projects, 'mlir') }}-commit-${{ matrix.llcommit }}-end
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
@@ -53,7 +53,7 @@ jobs:
           
       - name: Extract Docker metadata
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           
