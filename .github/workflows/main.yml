@@ -30,7 +30,7 @@ jobs:
       contents: read
     env:
       REGISTRY: ghcr.io
-      IMAGE_NAME: ${{ github.repository }}/ubuntu-${{ matrix.ubuntu }}-llvm-${{ matrix.llvm }}-build-${{ matrix.build }}-project-${{ contains(matrix.projects, "clang") }}-${{ contains(matrix.projects, "lld") }}-${{ contains(matrix.projects, "mlir") }}-commit-${{ matrix.commit }}
+      IMAGE_NAME: ${{ github.repository }}/ubuntu-${{ matrix.ubuntu }}-llvm-${{ matrix.llvm }}-build-${{ matrix.build }}-project-${{ contains(matrix.projects, 'clang') }}-${{ contains(matrix.projects, 'lld') }}-${{ contains(matrix.projects, 'mlir') }}-commit-${{ matrix.commit }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
