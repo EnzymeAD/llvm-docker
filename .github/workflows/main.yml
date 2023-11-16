@@ -7,7 +7,7 @@ on:
 jobs:
   push_to_registry:
     name: Build and push docker ${{ matrix.ubuntu }} ${{ matrix.llvm }} ${{ matrix.llcommit }} ${{ matrix.build }} ${{ matrix.projects }} ${{ matrix.targets }} ${{ matrix.url }}
-    runs-on: openstack22
+    runs-on: large22
     strategy:
       fail-fast: false
       matrix:
@@ -32,6 +32,7 @@ jobs:
       REGISTRY: ghcr.io
       IMAGE_NAME: ${{ github.repository }}/ubuntu-${{ matrix.ubuntu }}-llvm-${{ matrix.llvm }}-build-${{ matrix.build }}-project-${{ contains(matrix.projects, 'clang') }}-${{ contains(matrix.projects, 'lld') }}-${{ contains(matrix.projects, 'mlir') }}-commit-${{ matrix.llcommit }}-end
     steps:
+      - uses: AutoModality/action-clean@v1
       - name: Check out the repo
         uses: actions/checkout@v3
         
