@@ -42,4 +42,7 @@ COPY --from=builder /tmp/llvm/ /usr/local/
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update -q && apt-get install -y cmake ninja-build build-essential python3 python3-distutils git unzip gcc g++ libeigen3-dev libboost-dev
+RUN apt-get update -q && apt-get install -y cmake ninja-build build-essential python3 python3-distutils git unzip gcc g++ libeigen3-dev libboost-dev \
+    && apt-get autoremove -y --purge \
+    && apt-get clean -y \
+    && rm -rf /var/lib/apt/lists/*
