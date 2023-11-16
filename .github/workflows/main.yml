@@ -18,7 +18,7 @@ jobs:
         build: ["Debug", "Release"]
         projects: ["clang;lld"]
         targets: ["X86"]
-      include:
+        include:
         - projects: "clang;lld;mlir"
           llvm: "16"
         - projects: "clang;lld;mlir"
