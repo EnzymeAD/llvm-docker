@@ -6,31 +6,29 @@ on:
 
 jobs:
   push_to_registry:
-    name: Build and push docker ${{ matrix.ubuntu }} ${{ matrix.llvm }} ${{ matrix.llcommit }} ${{ matrix.build }} ${{ matrix.projects }} ${{ matrix.targets }} ${{ matrix.url }}
+    name: Build and push docker ${{ matrix.ubuntu }} ${{ matrix.commit }} ${{ matrix.build }} ${{ matrix.projects }} ${{ matrix.targets }} ${{ matrix.url }}
     runs-on: large22
     strategy:
       fail-fast: false
       matrix:
         ubuntu: [22.04]
         url: ["https://github.com/llvm/llvm-project"]
-        llvm: [11, 12, 13, 14, 15, 16, 17]
-        llcommit: [""]
+        commit: ["llvmorg-11.1.0", "llvmorg-12.0.1", "llvmorg-13.0.1", "llvmorg-14.0.6", "llvmorg-15.0.7", "llvmorg-16.0.6", "llvmorg-17.0.5"]
         build: ["Debug", "Release"]
         projects: ["clang;lld"]
         targets: ["X86"]
         include:
         - projects: "clang;lld;mlir"
-          llvm: "16"
+          commit: "llvmorg-16.0.6"
         - projects: "clang;lld;mlir"
-          llvm: ""
-          llcommit: "b7a249d26fe61432050df470d23bdea417fda574"
+          commit: "b7a249d26fe61432050df470d23bdea417fda574"
 
     permissions:
       packages: write
       contents: read
     env:
       REGISTRY: ghcr.io
-      IMAGE_NAME: ${{ github.repository }}/ubuntu-${{ matrix.ubuntu }}-llvm-${{ matrix.llvm }}-build-${{ matrix.build }}-project-${{ contains(matrix.projects, 'clang') }}-${{ contains(matrix.projects, 'lld') }}-${{ contains(matrix.projects, 'mlir') }}-commit-${{ matrix.llcommit }}-end
+      IMAGE_NAME: ${{ github.repository }}/ubuntu-${{ matrix.ubuntu }}-llvm-${{ matrix.llvm }}-build-${{ matrix.build }}-project-${{ contains(matrix.projects, 'clang') }}-${{ contains(matrix.projects, 'lld') }}-${{ contains(matrix.projects, 'mlir') }}
     steps:
       - uses: AutoModality/action-clean@v1
       - name: Check out the repo
@@ -67,8 +65,7 @@ jobs:
           build-args: | 
             UBUNTU_VERSION=${{ matrix.ubuntu }}
             LLVM_URL=${{ matrix.url }}
-            LLVM_VERSION=${{ matrix.llvm }}
-            LLVM_COMMIT=${{ matrix.llcommit }}
+            LLVM_COMMIT=${{ matrix.commit }}
             BUILD_TYPE=${{ matrix.build }}
             PROJECTS=${{ matrix.projects }}
             TARGETS=${{ matrix.targets }}
