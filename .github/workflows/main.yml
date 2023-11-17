@@ -28,7 +28,7 @@ jobs:
       contents: read
     env:
       REGISTRY: ghcr.io
-      IMAGE_NAME: ${{ github.repository }}/ubuntu-${{ matrix.ubuntu }}-llvm-${{ matrix.llvm }}-build-${{ matrix.build }}-project-${{ contains(matrix.projects, 'clang') }}-${{ contains(matrix.projects, 'lld') }}-${{ contains(matrix.projects, 'mlir') }}
+      IMAGE_NAME: ${{ github.repository }}/ubuntu-${{ matrix.ubuntu }}-${{ matrix.llvm }}-${{ matrix.build }}-projects-${{ join(matrix.project, '-') }}-${{ join(matrix.targets, '-') }}
     steps:
       - uses: AutoModality/action-clean@v1
       - name: Check out the repo
