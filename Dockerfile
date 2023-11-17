@@ -18,7 +18,7 @@ ARG TARGETS
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update -q && apt-get install -y cmake ninja-build build-essential python3 python3-distutils git unzip gcc g++ \
+RUN apt-get update -q && apt-get install -y cmake ninja-build build-essential python3 python3-distutils git unzip gcc g++ gcc-multilib \
     && apt-get autoremove -y --purge \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
