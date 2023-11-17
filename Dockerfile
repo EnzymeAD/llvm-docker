@@ -1,7 +1,6 @@
 ARG UBUNTU_VERSION=22.04
 ARG LLVM_URL="https://github.com/llvm/llvm-project"
-ARG LLVM_VERSION=17
-ARG LLVM_COMMIT=""
+ARG LLVM_COMMIT="llvmorg-17.0.5"
 ARG BUILD_TYPE=Release
 ARG PROJECTS="clang;lld"
 ARG TARGETS=X86
@@ -10,7 +9,6 @@ FROM ubuntu:22.04 AS builder
 
 ARG UBUNTU_VERSION
 ARG LLVM_URL
-ARG LLVM_VERSION
 ARG LLVM_COMMIT
 ARG BUILD_TYPE
 ARG PROJECTS
@@ -22,7 +20,7 @@ RUN apt-get update -q && apt-get install -y cmake ninja-build build-essential py
     && apt-get autoremove -y --purge \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
-RUN if [ -z "$LLVM_COMMIT" ]; then echo "branch" && git clone --branch release/$LLVM_VERSION.x --single-branch --depth 1 $LLVM_URL /tmp/llvm-project; else echo "commit" && git clone $LLVM_URL /tmp/llvm-project && cd /tmp/llvm-project && git checkout $LLVM_COMMIT; fi
+RUN git clone $LLVM_URL /tmp/llvm-project && cd /tmp/llvm-project && git checkout $LLVM_COMMIT
 
 RUN mkdir /tmp/llvm-project/build && mkdir /tmp/llvm && cd /tmp/llvm-project/build \
     && cmake -G Ninja ../llvm -Wno-dev \
