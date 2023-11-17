@@ -16,7 +16,7 @@ jobs:
         commit: ["llvmorg-11.1.0", "llvmorg-12.0.1", "llvmorg-13.0.1", "llvmorg-14.0.6", "llvmorg-15.0.7", "llvmorg-16.0.6", "llvmorg-17.0.5"]
         build: ["Debug", "Release"]
         projects: ["clang;lld"]
-        targets: ["Host"]
+        targets: ["host"]
         include:
         - projects: "clang;lld;mlir"
           commit: "llvmorg-16.0.6"
