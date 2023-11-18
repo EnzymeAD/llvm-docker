@@ -18,10 +18,18 @@ jobs:
         projects: ["clang;lld"]
         targets: ["host"]
         include:
-        - projects: "clang;lld;mlir"
+        - ubuntu: "22.04"
+          url: "https://github.com/llvm/llvm-project"
+          projects: "clang;lld;mlir"
           commit: "llvmorg-16.0.6"
-        - projects: "clang;lld;mlir"
+          build: "Release"
+          targets: "host"
+        - ubuntu: "22.04"
+          url: "https://github.com/llvm/llvm-project"
+          projects: "clang;lld;mlir"
           commit: "b7a249d26fe61432050df470d23bdea417fda574"
+          build: "Release"
+          targets: "host"
 
     permissions:
       packages: write
